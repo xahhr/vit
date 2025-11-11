@@ -1,175 +1,1305 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>خطة التعافي 6 أسابيع — يومي + مخزون + تذكير</title>
-<style>
-  :root { --bg:#0b1220; --card:#10192e; --muted:#99a3b3; --text:#e9eef7; --accent:#4ade80; --accent2:#60a5fa; --danger:#fb7185 }
-  *{box-sizing:border-box} body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;color:var(--text);background:#0b1220}
-  header{padding:16px;border-bottom:1px solid #1f2a44;position:sticky;top:0;background:#0b1220ee}
-  h1{margin:0;font-size:18px} .wrap{max-width:1100px;margin:16px auto;padding:0 12px}
-  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-  .card{grid-column:span 12;background:var(--card);border:1px solid #1f2a44;border-radius:14px;padding:14px}
-  @media(min-width:900px){ .half{grid-column:span 6} }
-  .btn{padding:8px 12px;border-radius:10px;border:1px solid #2a3b63;background:#0c1426;color:#e6eefb;cursor:pointer;margin:2px}
-  .btn.accent{background:#12311e;border-color:#1f7a3e;color:#d7ffe1}
-  .btn.warn{background:#32240d;border-color:#9a6a10;color:#fff3cd}
-  .btn.danger{background:#3a1521;border-color:#a61b42;color:#ffe4ea}
-  .muted{color:var(--muted)} .sub{font-size:12px;color:#b9c3d7} .bad{color:var(--danger);font-weight:bold}
-  table{width:100%;border-collapse:collapse;margin-top:8px} th,td{border:1px solid #223054;padding:6px;text-align:center;font-size:13px}
-  .pill{display:inline-flex;gap:6px;align-items:center;padding:4px 8px;border-radius:20px;border:1px solid #2a3b63;background:#0c1426;font-size:12px}
-  .bar{height:8px;background:#0c1426;border:1px solid #243352;border-radius:999px;overflow:hidden;margin:6px 0}
-  .bar>span{display:block;height:100%;background:linear-gradient(90deg,#60a5fa,#4ade80)}
-  dialog{border:none;border-radius:14px;background:#0f1a2e;color:var(--text);max-width:800px;width:92%} dialog::backdrop{background:#0008}
-</style>
+  <meta charset="UTF-8">
+  <title>متابعة المكملات اليومية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; background: #f4f7fa; padding: 20px; color: #222; }
+    h1 { text-align: center; color: #004080; }
+    .day-block { background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px;
+                 box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .day-block h2 { font-size: 18px; color: #006699; margin-bottom: 10px; }
+    .supplement { margin-bottom: 8px; padding: 5px 0; border-bottom: 1px solid #eee; }
+    .supplement label { margin-right: 10px; font-weight: bold; }
+    input[type="checkbox"] { transform: scale(1.2); margin-left: 10px; }
+    .note { font-size: 13px; color: #666; display: block; margin-right: 25px; }
+  </style>
 </head>
 <body>
-<header>
-  <div style="display:flex;justify-content:space-between;align-items:center">
-    <h1>خطة التعافي 6 أسابيع — إدارة يومية</h1>
-    <div>
-      <button class="btn" id="openInv">إعدادات المخزون</button>
-      <button class="btn" id="openRem">تذكيرات صوتية</button>
-      <button class="btn warn" id="resetStart">تغيير يوم البدء</button>
-      <button class="btn" id="exportCsv">تصدير CSV</button>
-      <button class="btn danger" id="wipe">مسح البيانات</button>
-    </div>
-  </div>
-  <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap">
-    <span class="pill">يوم البدء: <b id="startDateLabel"></b></span>
-    <span class="pill">اليوم: <b id="dayIdxLabel"></b> / 42</span>
-    <span class="pill">الأسبوع: <b id="weekLabel"></b></span>
-  </div>
-</header>
+  <h1>📅 جدول متابعة المكملات اليومية - 25 يوم</h1>
+<div class="day-block">
+<h2>16 / 07</h2>
 
-<div class="wrap">
-  <div class="grid">
-    <div class="card">
-      <h3>الجرعات المستهدفة اليوم</h3>
-      <p class="sub" id="targetsText"></p>
-      <div class="bar"><span id="progressBar" style="width:0%"></span></div>
-    </div>
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_Milk_Thistle" onchange="localStorage.setItem('16_/_07_Milk_Thistle', this.checked)">
+          <label for="16_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_NOW_C-1000" onchange="localStorage.setItem('16_/_07_NOW_C-1000', this.checked)">
+          <label for="16_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_Probiotic" onchange="localStorage.setItem('16_/_07_Probiotic', this.checked)">
+          <label for="16_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_B-Complex" onchange="localStorage.setItem('16_/_07_B-Complex', this.checked)">
+          <label for="16_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_Magnesium" onchange="localStorage.setItem('16_/_07_Magnesium', this.checked)">
+          <label for="16_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('16_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="16_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('16_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="16_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="16_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('16_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="16_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>17 / 07</h2>
 
-    <div class="card half">
-      <h3>تسجيل الأدوية</h3>
-      <table id="drugTable">
-        <thead><tr><th>دواء</th><th>الهدف (mg)</th><th>ما أُخذ (mg)</th><th>تحذير</th></tr></thead>
-        <tbody></tbody>
-      </table>
-      <button class="btn accent" id="saveDay">حفظ اليوم</button>
-      <span id="saveMsg" class="muted"></span>
-    </div>
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_Milk_Thistle" onchange="localStorage.setItem('17_/_07_Milk_Thistle', this.checked)">
+          <label for="17_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_NOW_C-1000" onchange="localStorage.setItem('17_/_07_NOW_C-1000', this.checked)">
+          <label for="17_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_Probiotic" onchange="localStorage.setItem('17_/_07_Probiotic', this.checked)">
+          <label for="17_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_B-Complex" onchange="localStorage.setItem('17_/_07_B-Complex', this.checked)">
+          <label for="17_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_Magnesium" onchange="localStorage.setItem('17_/_07_Magnesium', this.checked)">
+          <label for="17_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('17_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="17_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('17_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="17_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="17_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('17_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="17_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>18 / 07</h2>
 
-    <div class="card half">
-      <h3>المكملات والسلوك</h3>
-      <div>
-        <label class="pill"><input type="checkbox" id="supAM"> صباحًا</label>
-        <label class="pill"><input type="checkbox" id="supNoon"> ظهرًا</label>
-        <label class="pill"><input type="checkbox" id="supPM"> مساءً</label>
-        <label class="pill"><input type="checkbox" id="supBed"> قبل النوم</label>
-      </div>
-      <label>مذكرة اليوم</label>
-      <textarea id="notes" rows="4" style="width:100%"></textarea>
-    </div>
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_Milk_Thistle" onchange="localStorage.setItem('18_/_07_Milk_Thistle', this.checked)">
+          <label for="18_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_NOW_C-1000" onchange="localStorage.setItem('18_/_07_NOW_C-1000', this.checked)">
+          <label for="18_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_Probiotic" onchange="localStorage.setItem('18_/_07_Probiotic', this.checked)">
+          <label for="18_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_B-Complex" onchange="localStorage.setItem('18_/_07_B-Complex', this.checked)">
+          <label for="18_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_Magnesium" onchange="localStorage.setItem('18_/_07_Magnesium', this.checked)">
+          <label for="18_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('18_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="18_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('18_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="18_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="18_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('18_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="18_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>19 / 07</h2>
 
-    <div class="card">
-      <h3>مؤشرات اليوم (KPIs)</h3>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <div><label>الطاقة (1–10)</label><input type="number" id="kpiEnergy" min="1" max="10"></div>
-        <div><label>ساعات النوم</label><input type="number" id="kpiSleep" min="0" max="12" step="0.5"></div>
-        <div><label>نوبات القلق</label><input type="number" id="kpiAnxiety" min="0" max="20"></div>
-        <div><label>الهضم (1–10)</label><input type="number" id="kpiGut" min="1" max="10"></div>
-      </div>
-    </div>
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_Milk_Thistle" onchange="localStorage.setItem('19_/_07_Milk_Thistle', this.checked)">
+          <label for="19_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_NOW_C-1000" onchange="localStorage.setItem('19_/_07_NOW_C-1000', this.checked)">
+          <label for="19_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_Probiotic" onchange="localStorage.setItem('19_/_07_Probiotic', this.checked)">
+          <label for="19_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_B-Complex" onchange="localStorage.setItem('19_/_07_B-Complex', this.checked)">
+          <label for="19_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_Magnesium" onchange="localStorage.setItem('19_/_07_Magnesium', this.checked)">
+          <label for="19_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('19_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="19_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('19_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="19_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="19_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('19_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="19_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>20 / 07</h2>
 
-    <div class="card">
-      <h3>المخزون الحالي</h3>
-      <table id="invTable">
-        <thead><tr><th>دواء</th><th>mg/قرص</th><th>أقراص/علبة</th><th>علب</th><th>أقراص متبقية</th><th>تنبيه</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-</div>
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_Milk_Thistle" onchange="localStorage.setItem('20_/_07_Milk_Thistle', this.checked)">
+          <label for="20_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_NOW_C-1000" onchange="localStorage.setItem('20_/_07_NOW_C-1000', this.checked)">
+          <label for="20_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_Probiotic" onchange="localStorage.setItem('20_/_07_Probiotic', this.checked)">
+          <label for="20_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_B-Complex" onchange="localStorage.setItem('20_/_07_B-Complex', this.checked)">
+          <label for="20_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_Magnesium" onchange="localStorage.setItem('20_/_07_Magnesium', this.checked)">
+          <label for="20_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('20_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="20_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('20_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="20_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="20_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('20_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="20_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>21 / 07</h2>
 
-<!-- حوار إعدادات المخزون -->
-<dialog id="invDlg"><form method="dialog">
-  <h3>إعدادات المخزون</h3>
-  <div id="invForm"></div>
-  <div style="margin-top:10px;text-align:right">
-    <button class="btn">إلغاء</button>
-    <button class="btn accent" id="saveInv">حفظ</button>
-  </div>
-</form></dialog>
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_Milk_Thistle" onchange="localStorage.setItem('21_/_07_Milk_Thistle', this.checked)">
+          <label for="21_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_NOW_C-1000" onchange="localStorage.setItem('21_/_07_NOW_C-1000', this.checked)">
+          <label for="21_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_Probiotic" onchange="localStorage.setItem('21_/_07_Probiotic', this.checked)">
+          <label for="21_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_B-Complex" onchange="localStorage.setItem('21_/_07_B-Complex', this.checked)">
+          <label for="21_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_Magnesium" onchange="localStorage.setItem('21_/_07_Magnesium', this.checked)">
+          <label for="21_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('21_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="21_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('21_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="21_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="21_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('21_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="21_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>22 / 07</h2>
 
-<!-- حوار التذكيرات -->
-<dialog id="remDlg"><form method="dialog">
-  <h3>تذكيرات صوتية</h3>
-  <p class="sub">تعمل طالما الصفحة مفتوحة</p>
-  <div>
-    <label>صباحًا <input id="remAM" placeholder="08:30"></label><br>
-    <label>ظهرًا <input id="remNoon" placeholder="13:30"></label><br>
-    <label>مساءً <input id="remPM" placeholder="18:00"></label><br>
-    <label>قبل النوم <input id="remBed" placeholder="22:30"></label><br>
-    <label><input type="checkbox" id="remEnable"> تفعيل</label>
-  </div>
-  <div style="margin-top:10px;text-align:right">
-    <button class="btn">إلغاء</button>
-    <button class="btn accent" id="saveRem">حفظ</button>
-  </div>
-</form></dialog>
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_Milk_Thistle" onchange="localStorage.setItem('22_/_07_Milk_Thistle', this.checked)">
+          <label for="22_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_NOW_C-1000" onchange="localStorage.setItem('22_/_07_NOW_C-1000', this.checked)">
+          <label for="22_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_Probiotic" onchange="localStorage.setItem('22_/_07_Probiotic', this.checked)">
+          <label for="22_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_B-Complex" onchange="localStorage.setItem('22_/_07_B-Complex', this.checked)">
+          <label for="22_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_Magnesium" onchange="localStorage.setItem('22_/_07_Magnesium', this.checked)">
+          <label for="22_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('22_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="22_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('22_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="22_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="22_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('22_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="22_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>23 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_Milk_Thistle" onchange="localStorage.setItem('23_/_07_Milk_Thistle', this.checked)">
+          <label for="23_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_NOW_C-1000" onchange="localStorage.setItem('23_/_07_NOW_C-1000', this.checked)">
+          <label for="23_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_Probiotic" onchange="localStorage.setItem('23_/_07_Probiotic', this.checked)">
+          <label for="23_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_B-Complex" onchange="localStorage.setItem('23_/_07_B-Complex', this.checked)">
+          <label for="23_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_Magnesium" onchange="localStorage.setItem('23_/_07_Magnesium', this.checked)">
+          <label for="23_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('23_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="23_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('23_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="23_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="23_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('23_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="23_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>24 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_Milk_Thistle" onchange="localStorage.setItem('24_/_07_Milk_Thistle', this.checked)">
+          <label for="24_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_NOW_C-1000" onchange="localStorage.setItem('24_/_07_NOW_C-1000', this.checked)">
+          <label for="24_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_Probiotic" onchange="localStorage.setItem('24_/_07_Probiotic', this.checked)">
+          <label for="24_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_B-Complex" onchange="localStorage.setItem('24_/_07_B-Complex', this.checked)">
+          <label for="24_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_Magnesium" onchange="localStorage.setItem('24_/_07_Magnesium', this.checked)">
+          <label for="24_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('24_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="24_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('24_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="24_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="24_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('24_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="24_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>25 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_Milk_Thistle" onchange="localStorage.setItem('25_/_07_Milk_Thistle', this.checked)">
+          <label for="25_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_NOW_C-1000" onchange="localStorage.setItem('25_/_07_NOW_C-1000', this.checked)">
+          <label for="25_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_Probiotic" onchange="localStorage.setItem('25_/_07_Probiotic', this.checked)">
+          <label for="25_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_B-Complex" onchange="localStorage.setItem('25_/_07_B-Complex', this.checked)">
+          <label for="25_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_Magnesium" onchange="localStorage.setItem('25_/_07_Magnesium', this.checked)">
+          <label for="25_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('25_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="25_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('25_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="25_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="25_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('25_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="25_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>26 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_Milk_Thistle" onchange="localStorage.setItem('26_/_07_Milk_Thistle', this.checked)">
+          <label for="26_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_NOW_C-1000" onchange="localStorage.setItem('26_/_07_NOW_C-1000', this.checked)">
+          <label for="26_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_Probiotic" onchange="localStorage.setItem('26_/_07_Probiotic', this.checked)">
+          <label for="26_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_B-Complex" onchange="localStorage.setItem('26_/_07_B-Complex', this.checked)">
+          <label for="26_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_Magnesium" onchange="localStorage.setItem('26_/_07_Magnesium', this.checked)">
+          <label for="26_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('26_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="26_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('26_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="26_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="26_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('26_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="26_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>27 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_Milk_Thistle" onchange="localStorage.setItem('27_/_07_Milk_Thistle', this.checked)">
+          <label for="27_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_NOW_C-1000" onchange="localStorage.setItem('27_/_07_NOW_C-1000', this.checked)">
+          <label for="27_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_Probiotic" onchange="localStorage.setItem('27_/_07_Probiotic', this.checked)">
+          <label for="27_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_B-Complex" onchange="localStorage.setItem('27_/_07_B-Complex', this.checked)">
+          <label for="27_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_Magnesium" onchange="localStorage.setItem('27_/_07_Magnesium', this.checked)">
+          <label for="27_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('27_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="27_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('27_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="27_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="27_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('27_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="27_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>28 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_Milk_Thistle" onchange="localStorage.setItem('28_/_07_Milk_Thistle', this.checked)">
+          <label for="28_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_NOW_C-1000" onchange="localStorage.setItem('28_/_07_NOW_C-1000', this.checked)">
+          <label for="28_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_Probiotic" onchange="localStorage.setItem('28_/_07_Probiotic', this.checked)">
+          <label for="28_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_B-Complex" onchange="localStorage.setItem('28_/_07_B-Complex', this.checked)">
+          <label for="28_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_Magnesium" onchange="localStorage.setItem('28_/_07_Magnesium', this.checked)">
+          <label for="28_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('28_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="28_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('28_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="28_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="28_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('28_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="28_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>29 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_Milk_Thistle" onchange="localStorage.setItem('29_/_07_Milk_Thistle', this.checked)">
+          <label for="29_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_NOW_C-1000" onchange="localStorage.setItem('29_/_07_NOW_C-1000', this.checked)">
+          <label for="29_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_Probiotic" onchange="localStorage.setItem('29_/_07_Probiotic', this.checked)">
+          <label for="29_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_B-Complex" onchange="localStorage.setItem('29_/_07_B-Complex', this.checked)">
+          <label for="29_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_Magnesium" onchange="localStorage.setItem('29_/_07_Magnesium', this.checked)">
+          <label for="29_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('29_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="29_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('29_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="29_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="29_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('29_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="29_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>30 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_Milk_Thistle" onchange="localStorage.setItem('30_/_07_Milk_Thistle', this.checked)">
+          <label for="30_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_NOW_C-1000" onchange="localStorage.setItem('30_/_07_NOW_C-1000', this.checked)">
+          <label for="30_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_Probiotic" onchange="localStorage.setItem('30_/_07_Probiotic', this.checked)">
+          <label for="30_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_B-Complex" onchange="localStorage.setItem('30_/_07_B-Complex', this.checked)">
+          <label for="30_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_Magnesium" onchange="localStorage.setItem('30_/_07_Magnesium', this.checked)">
+          <label for="30_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('30_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="30_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('30_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="30_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="30_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('30_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="30_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>31 / 07</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_Milk_Thistle" onchange="localStorage.setItem('31_/_07_Milk_Thistle', this.checked)">
+          <label for="31_/_07_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_NOW_C-1000" onchange="localStorage.setItem('31_/_07_NOW_C-1000', this.checked)">
+          <label for="31_/_07_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_Probiotic" onchange="localStorage.setItem('31_/_07_Probiotic', this.checked)">
+          <label for="31_/_07_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_B-Complex" onchange="localStorage.setItem('31_/_07_B-Complex', this.checked)">
+          <label for="31_/_07_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_Magnesium" onchange="localStorage.setItem('31_/_07_Magnesium', this.checked)">
+          <label for="31_/_07_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_Potassium_(اختياري)" onchange="localStorage.setItem('31_/_07_Potassium_(اختياري)', this.checked)">
+          <label for="31_/_07_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_Omega-3_(اختياري)" onchange="localStorage.setItem('31_/_07_Omega-3_(اختياري)', this.checked)">
+          <label for="31_/_07_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="31_/_07_Vitamin_D_(اختياري)" onchange="localStorage.setItem('31_/_07_Vitamin_D_(اختياري)', this.checked)">
+          <label for="31_/_07_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>01 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_Milk_Thistle" onchange="localStorage.setItem('01_/_08_Milk_Thistle', this.checked)">
+          <label for="01_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_NOW_C-1000" onchange="localStorage.setItem('01_/_08_NOW_C-1000', this.checked)">
+          <label for="01_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_Probiotic" onchange="localStorage.setItem('01_/_08_Probiotic', this.checked)">
+          <label for="01_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_B-Complex" onchange="localStorage.setItem('01_/_08_B-Complex', this.checked)">
+          <label for="01_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_Magnesium" onchange="localStorage.setItem('01_/_08_Magnesium', this.checked)">
+          <label for="01_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('01_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="01_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('01_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="01_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="01_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('01_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="01_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>02 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_Milk_Thistle" onchange="localStorage.setItem('02_/_08_Milk_Thistle', this.checked)">
+          <label for="02_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_NOW_C-1000" onchange="localStorage.setItem('02_/_08_NOW_C-1000', this.checked)">
+          <label for="02_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_Probiotic" onchange="localStorage.setItem('02_/_08_Probiotic', this.checked)">
+          <label for="02_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_B-Complex" onchange="localStorage.setItem('02_/_08_B-Complex', this.checked)">
+          <label for="02_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_Magnesium" onchange="localStorage.setItem('02_/_08_Magnesium', this.checked)">
+          <label for="02_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('02_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="02_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('02_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="02_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="02_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('02_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="02_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>03 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_Milk_Thistle" onchange="localStorage.setItem('03_/_08_Milk_Thistle', this.checked)">
+          <label for="03_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_NOW_C-1000" onchange="localStorage.setItem('03_/_08_NOW_C-1000', this.checked)">
+          <label for="03_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_Probiotic" onchange="localStorage.setItem('03_/_08_Probiotic', this.checked)">
+          <label for="03_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_B-Complex" onchange="localStorage.setItem('03_/_08_B-Complex', this.checked)">
+          <label for="03_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_Magnesium" onchange="localStorage.setItem('03_/_08_Magnesium', this.checked)">
+          <label for="03_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('03_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="03_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('03_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="03_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="03_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('03_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="03_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>04 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_Milk_Thistle" onchange="localStorage.setItem('04_/_08_Milk_Thistle', this.checked)">
+          <label for="04_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_NOW_C-1000" onchange="localStorage.setItem('04_/_08_NOW_C-1000', this.checked)">
+          <label for="04_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_Probiotic" onchange="localStorage.setItem('04_/_08_Probiotic', this.checked)">
+          <label for="04_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_B-Complex" onchange="localStorage.setItem('04_/_08_B-Complex', this.checked)">
+          <label for="04_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_Magnesium" onchange="localStorage.setItem('04_/_08_Magnesium', this.checked)">
+          <label for="04_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('04_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="04_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('04_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="04_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="04_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('04_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="04_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>05 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_Milk_Thistle" onchange="localStorage.setItem('05_/_08_Milk_Thistle', this.checked)">
+          <label for="05_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_NOW_C-1000" onchange="localStorage.setItem('05_/_08_NOW_C-1000', this.checked)">
+          <label for="05_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_Probiotic" onchange="localStorage.setItem('05_/_08_Probiotic', this.checked)">
+          <label for="05_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_B-Complex" onchange="localStorage.setItem('05_/_08_B-Complex', this.checked)">
+          <label for="05_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_Magnesium" onchange="localStorage.setItem('05_/_08_Magnesium', this.checked)">
+          <label for="05_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('05_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="05_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('05_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="05_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="05_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('05_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="05_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>06 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_Milk_Thistle" onchange="localStorage.setItem('06_/_08_Milk_Thistle', this.checked)">
+          <label for="06_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_NOW_C-1000" onchange="localStorage.setItem('06_/_08_NOW_C-1000', this.checked)">
+          <label for="06_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_Probiotic" onchange="localStorage.setItem('06_/_08_Probiotic', this.checked)">
+          <label for="06_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_B-Complex" onchange="localStorage.setItem('06_/_08_B-Complex', this.checked)">
+          <label for="06_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_Magnesium" onchange="localStorage.setItem('06_/_08_Magnesium', this.checked)">
+          <label for="06_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('06_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="06_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('06_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="06_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="06_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('06_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="06_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>07 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_Milk_Thistle" onchange="localStorage.setItem('07_/_08_Milk_Thistle', this.checked)">
+          <label for="07_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_NOW_C-1000" onchange="localStorage.setItem('07_/_08_NOW_C-1000', this.checked)">
+          <label for="07_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_Probiotic" onchange="localStorage.setItem('07_/_08_Probiotic', this.checked)">
+          <label for="07_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_B-Complex" onchange="localStorage.setItem('07_/_08_B-Complex', this.checked)">
+          <label for="07_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_Magnesium" onchange="localStorage.setItem('07_/_08_Magnesium', this.checked)">
+          <label for="07_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('07_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="07_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('07_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="07_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="07_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('07_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="07_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>08 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_Milk_Thistle" onchange="localStorage.setItem('08_/_08_Milk_Thistle', this.checked)">
+          <label for="08_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_NOW_C-1000" onchange="localStorage.setItem('08_/_08_NOW_C-1000', this.checked)">
+          <label for="08_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_Probiotic" onchange="localStorage.setItem('08_/_08_Probiotic', this.checked)">
+          <label for="08_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_B-Complex" onchange="localStorage.setItem('08_/_08_B-Complex', this.checked)">
+          <label for="08_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_Magnesium" onchange="localStorage.setItem('08_/_08_Magnesium', this.checked)">
+          <label for="08_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('08_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="08_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('08_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="08_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="08_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('08_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="08_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
+<div class="day-block">
+<h2>09 / 08</h2>
+
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_Milk_Thistle" onchange="localStorage.setItem('09_/_08_Milk_Thistle', this.checked)">
+          <label for="09_/_08_Milk_Thistle">Milk Thistle</label>
+          <span class="note">🕐 صباحًا قبل الإفطار — 💡 يدعم الكبد، يُفضل على معدة فارغة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_NOW_C-1000" onchange="localStorage.setItem('09_/_08_NOW_C-1000', this.checked)">
+          <label for="09_/_08_NOW_C-1000">NOW C-1000</label>
+          <span class="note">🕐 صباحًا بعد مكملات الكبد — 💡 يعزز المناعة، يُفضل بعد Milk Thistle</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_Probiotic" onchange="localStorage.setItem('09_/_08_Probiotic', this.checked)">
+          <label for="09_/_08_Probiotic">Probiotic</label>
+          <span class="note">🕐 صباحًا مع وجبة خفيفة — 💡 يُفضل تناوله مع لبن أو زبادي</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_B-Complex" onchange="localStorage.setItem('09_/_08_B-Complex', this.checked)">
+          <label for="09_/_08_B-Complex">B-Complex</label>
+          <span class="note">🕐 مساءً بعد الغداء — 💡 يدعم الطاقة والدوبامين</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_Magnesium" onchange="localStorage.setItem('09_/_08_Magnesium', this.checked)">
+          <label for="09_/_08_Magnesium">Magnesium</label>
+          <span class="note">🕐 ليلاً قبل النوم بـ 30 دقيقة — 💡 يساعد على الاسترخاء والنوم</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_Potassium_(اختياري)" onchange="localStorage.setItem('09_/_08_Potassium_(اختياري)', this.checked)">
+          <label for="09_/_08_Potassium_(اختياري)">Potassium (اختياري)</label>
+          <span class="note">🕐 بعد الظهر أو مساءً — 💡 يُستخدم عند وجود خمول أو دوخة</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_Omega-3_(اختياري)" onchange="localStorage.setItem('09_/_08_Omega-3_(اختياري)', this.checked)">
+          <label for="09_/_08_Omega-3_(اختياري)">Omega-3 (اختياري)</label>
+          <span class="note">🕐 صباحًا مع الإفطار — 💡 يدعم الأعصاب والمزاج</span>
+        </div>
+        
+        <div class="supplement">
+          <input type="checkbox" id="09_/_08_Vitamin_D_(اختياري)" onchange="localStorage.setItem('09_/_08_Vitamin_D_(اختياري)', this.checked)">
+          <label for="09_/_08_Vitamin_D_(اختياري)">Vitamin D (اختياري)</label>
+          <span class="note">🕐 ظهرًا أو صباحًا مع وجبة دسمة — 💡 يُفضل تناوله مع دهون لامتصاص أفضل</span>
+        </div>
+        </div>
 
 <script>
-const LS_DATA="rec6_data", LS_START="rec6_start", LS_INV="rec6_inv", LS_REM="rec6_rem";
-
-/* يوم البدء */
-function getStartDate(){let s=localStorage.getItem(LS_START);if(!s){const d=new Date();d.setHours(0,0,0,0);localStorage.setItem(LS_START,d.toISOString());s=d.toISOString();}return new Date(s);}
-function getDayIndex(){const st=getStartDate().getTime();const now=new Date();now.setHours(0,0,0,0);return Math.min(42,Math.max(1,Math.floor((now-st)/86400000)+1));}
-function weekOf(d){return Math.ceil(d/7);}
-
-/* خطة 42 يوم */
-function fillRange(arr,s,e,v){for(let i=s;i<=e;i++)arr[i]=v;}
-const targets={P:new Array(43).fill(0),A:new Array(43).fill(0),N:new Array(43).fill(0),G:new Array(43).fill(0),C:new Array(43).fill(0)};
-fillRange(targets.P,1,14,400);fillRange(targets.P,15,28,200);fillRange(targets.P,29,42,100);
-fillRange(targets.A,1,14,150);fillRange(targets.A,15,28,100);fillRange(targets.A,29,42,50);
-fillRange(targets.N,1,14,12);fillRange(targets.N,15,28,9);fillRange(targets.N,29,42,6);
-fillRange(targets.G,1,14,2400);fillRange(targets.G,15,28,1800);fillRange(targets.G,29,42,1200);
-fillRange(targets.C,1,14,300);fillRange(targets.C,15,28,200);fillRange(targets.C,29,42,150);
-
-const DRUGS=[{k:"P",n:"Prafamax"},{k:"A",n:"Armoda"},{k:"N",n:"Night Calm"},{k:"G",n:"Gabapentin"},{k:"C",n:"Caffeine"}];
-
-function loadAll(){const r=localStorage.getItem(LS_DATA);return r?JSON.parse(r):{};}
-function saveAll(o){localStorage.setItem(LS_DATA,JSON.stringify(o));}
-function getDayData(i){const all=loadAll();return all[i]||{meds:{},kpi:{},sup:{},notes:""};}
-function setDayData(i,d){const all=loadAll();all[i]=d;saveAll(all);}
-
-function renderAll(){
-  const day=getDayIndex();document.getElementById("dayIdxLabel").textContent=day;document.getElementById("weekLabel").textContent=weekOf(day);
-  document.getElementById("startDateLabel").textContent=getStartDate().toLocaleDateString();
-  const t={P:targets.P[day],A:targets.A[day],N:targets.N[day],G:targets.G[day],C:targets.C[day]};
-  document.getElementById("targetsText").innerHTML=`Prafamax <b>${t.P}</b>mg — Armoda <b>${t.A}</b>mg — NightCalm <b>${t.N}</b>mg — Gabapentin <b>${t.G}</b>mg — كافيين ≤ <b>${t.C}</b>mg`;
-  const dd=getDayData(day);const tb=document.querySelector("#drugTable tbody");tb.innerHTML="";let achieved=0;
-  DRUGS.forEach(dr=>{const target=targets[dr.k][day];const val=dd.meds[dr.k]??"";const warn=(val!==""&&val>target)?"⚠":"";
-    tb.innerHTML+=`<tr><td>${dr.n}</td><td>${target}</td><td><input type="number" data-k="${dr.k}" value="${val}" style="width:70px"></td><td class="${warn?'bad':'sub'}">${warn}</td></tr>`;
-    if(target===0){if(val!==""&&val==0)achieved++;}else{if(val!==""&&val<=target)achieved++;}});
-  document.getElementById("progressBar").style.width=(Math.round(achieved/DRUGS.length*100))+"%";
-  document.getElementById("notes").value=dd.notes||"";["supAM","supNoon","supPM","supBed"].forEach(id=>document.getElementById(id).checked=!!dd.sup[id.replace("sup","")]);
-  document.getElementById("kpiEnergy").value=dd.kpi.energy??"";document.getElementById("kpiSleep").value=dd.kpi.sleep??"";document.getElementById("kpiAnxiety").value=dd.kpi.anxiety??"";document.getElementById("kpiGut").value=dd.kpi.gut??"";
-}
-document.getElementById("saveDay").onclick=()=>{const idx=getDayIndex();const d=getDayData(idx);d.meds={};document.querySelectorAll("#drugTable input").forEach(inp=>d.meds[inp.dataset.k]=inp.value===""?"":+inp.value);
-d.sup={AM:supAM.checked,Noon:supNoon.checked,PM:supPM.checked,Bed:supBed.checked};d.kpi={energy:+kpiEnergy.value||"",sleep:+kpiSleep.value||"",anxiety:+kpiAnxiety.value||"",gut:+kpiGut.value||""};d.notes=notes.value;setDayData(idx,d);
-saveMsg.textContent="تم الحفظ ✅";setTimeout(()=>saveMsg.textContent="",1500);renderAll();}
-
-/* مخزون */
-function defaultInv(){return{P:{mg:200,tabs:10,boxes:0,alert:4},A:{mg:150,tabs:30,boxes:0,alert:6},N:{mg:3,tabs:20,boxes:0,alert:6},G:{mg:800,tabs:20,boxes:0,alert:6}};}
-function getInv(){const r=localStorage.getItem(LS_INV);return r?JSON.parse(r):defaultInv();}
-function saveInv(o){localStorage.setItem(LS_INV,JSON.stringify(o));}
-function renderInv(){const inv=getInv();let out="";DRUGS.filter(d=>d.k!=="C").forEach(dr=>{const i=inv[dr.k];const left=i.boxes*i.tabs+(i.loose||0);const low=i.alert&&left<=i.alert;out+=`<tr><td>${dr.n}</td><td>${i.mg}</td><td>${i.tabs}</td><td>${i.boxes}</td><td>${left}</td><td class="${low?'bad':'sub'}">${low?'قارب النفاد':''}</td></tr>`});invTable.querySelector("tbody").innerHTML=out;}
-openInv.onclick=()=>{const inv=getInv();let html="";DRUGS.filter(d=>d.k!=="C").forEach(dr=>{const i=inv[dr.k];html+=`<div><b>${dr.n}</b><br>mg/قرص <input data-k="${dr.k}" data-f="mg" value="${i.mg}"> أقراص/علبة <input data-k="${dr.k}" data-f="tabs" value="${i.tabs}"> علب <input data-k="${dr.k}" data-f="boxes" value="${i.boxes}"> حد تنبيه <input data-k="${dr.k}" data-f="alert" value="${i.alert}"></div><hr>`});invForm.innerHTML=html;invDlg.showModal();}
-saveInv.onclick=(e)=>{e.preventDefault();let inv=getInv();invForm.querySelectorAll("input").forEach(inp=>{inv[inp.dataset.k][inp.dataset.f]=+inp.value||0;});saveInv(inv);invDlg.close();renderInv();}
-
-/* تذكيرات */
-openRem.onclick=()=>{const r=JSON.parse(localStorage.getItem(LS_REM)||'{}');remAM.value=r.AM||"";remNoon.value=r.Noon||"";remPM.value=r.PM||"";remBed.value=r.Bed||"";remEnable.checked=r.enable;remDlg.showModal();}
-saveRem.onclick=(e)=>{e.preventDefault();const r={AM:remAM.value,Noon:remNoon.value,PM:remPM.value,Bed:remBed.value,enable:remEnable.checked};localStorage.setItem(LS_REM,JSON.stringify(r));remDlg.close();}
-function beep(){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();const g=ctx.createGain();o.type="sine";o.frequency.value=880;o.connect(g);g.connect(ctx.destination);g.gain.setValueAtTime(0.001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.3,ctx.currentTime+0.02);o.start();setTimeout(()=>{g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.4);o.stop
+  document.querySelectorAll("input[type=checkbox]").forEach(cb => {
+    const key = cb.id;
+    cb.checked = localStorage.getItem(key) === "true";
+  });
+</script>
+</body>
+</html>
