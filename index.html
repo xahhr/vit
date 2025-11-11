@@ -54,20 +54,20 @@
     const START_DATE = new Date('2025-11-12');
     let currentWeekOffset = 0;
 
+    // الترتيب الجديد حسب طلبك بالضبط
     const supplements = {
       morning: [
         { id: 'Milk_Thistle', label: 'Milk Thistle', note: 'على معدة فارغة — يحمي الكبد' },
         { id: 'Vitamin_C', label: 'Vitamin C (NOW C-1000)', note: 'بعد Milk Thistle — مناعة' },
-        { id: 'Vitamin_D3', label: 'Vitamin D3', note: 'مع وجبة دسمة — امتصاص أفضل' },
+        { id: 'Ginseng_Lysine', label: 'Ginseng + Lysine', note: 'طاقة + مناعة' },
+        { id: 'B_Complex', label: 'B-Complex', note: 'مع الطعام — طاقة + دوبامين' },
         { id: 'Omega_3', label: 'Omega-3', note: 'مع الإفطار — دعم الأعصاب' },
         { id: 'Zinc', label: 'Zinc', note: 'مع الطعام — مناعة + هرمونات' },
-        { id: 'Probiotic', label: 'Probiotic', note: 'مع زبادي — حماية الأمعاء' },
-        { id: 'Psyllium_Husk', label: 'Psyllium Husk', note: 'مع ماء — ألياف' },
-        { id: 'L_Carnitine', label: 'L-Carnitine', note: 'قبل النشاط — طاقة' },
-        { id: 'CoQ10', label: 'CoQ10', note: 'مع دهون — طاقة ميتوكوندريا' }
+        { id: 'L_Carnitine', label: 'L-Carnitine', note: 'قبل النشاط — طاقة' }
       ],
       afternoon: [
-        { id: 'B_Complex', label: 'B-Complex', note: 'مع الطعام — طاقة + دوبامين' },
+        { id: 'Vitamin_D3', label: 'Vitamin D3', note: 'مع وجبة دسمة — امتصاص أفضل' },
+        { id: 'CoQ10', label: 'CoQ10', note: 'مع دهون — طاقة ميتوكوندريا' },
         { id: 'L_Tyrosine', label: 'L-Tyrosine', note: 'بعد الغداء — تركيز' },
         { id: 'Royal_Jelly', label: 'Royal Jelly', note: 'طاقة طبيعية' },
         { id: 'NAC', label: 'NAC', note: 'مضاد أكسدة + كبد' },
@@ -76,7 +76,8 @@
       evening: [
         { id: 'Magnesium', label: 'Magnesium', note: 'قبل النوم — استرخاء' },
         { id: 'Ashwagandha', label: 'Ashwagandha', note: 'تقليل القلق + نوم' },
-        { id: 'Ginseng_Lysine', label: 'Ginseng + Lysine', note: 'طاقة + مناعة' }
+        { id: 'Probiotic', label: 'Probiotic', note: 'مع زبادي — حماية الأمعاء' },
+        { id: 'Psyllium_Husk', label: 'Psyllium Husk', note: 'مع ماء — ألياف' }
       ]
     };
 
@@ -97,7 +98,7 @@
 
       let html = `<h2>📅 ${dateStr} — الأسبوع ${(Math.floor(dateOffset / 7) + 1)}</h2>`;
 
-      // صباح
+      // صباحًا
       html += `<div class="time-block"><h3>🕖 صباحًا</h3>`;
       supplements.morning.forEach(s => {
         const id = `${keyPrefix}_${s.id}`;
@@ -123,7 +124,7 @@
       });
       html += `</div>`;
 
-      // مساء
+      // قبل النوم
       html += `<div class="time-block"><h3>🌙 قبل النوم</h3>`;
       supplements.evening.forEach(s => {
         const id = `${keyPrefix}_${s.id}`;
